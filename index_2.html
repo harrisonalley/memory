@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memorize the Bible in 5 Minutes a Day</title>
+
+<!-- ===== SHARE PREVIEW METADATA (iMessage, Facebook, X, etc.) =====
+     After uploading to GitHub Pages, make sure og:image below is the FULL
+     absolute URL to share.png. iMessage will show this image + title. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="You Can Memorize the Entire New Testament in 5 Minutes a Day (Really)">
+<meta property="og:description" content="The memory science your teachers never told you about — and the free app that puts Scripture memory on autopilot.">
+<meta property="og:url" content="https://harrisonalley.github.io/memorize/">
+<meta property="og:image" content="https://harrisonalley.github.io/memorize/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="You Can Memorize the Entire New Testament in 5 Minutes a Day (Really)">
+<meta name="twitter:description" content="The memory science your teachers never told you about — and the free app that puts Scripture memory on autopilot.">
+<meta name="twitter:image" content="https://harrisonalley.github.io/memorize/share.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#2b2620; --gold:#a07d3e; --goldd:#8a6d34; --mut:#8a8378;
+  --rule:#e3d8bf; --cream:#faf8f3; --panel:#f3ead2; --panel2:#f6f0e0;
+  --green:#5a7a4f; --red:#9c5648; --blue:#3f6f7a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--cream);color:var(--ink);
+  font-family:"Source Serif 4",Georgia,serif;font-size:17px;line-height:1.65}
+.wrap{max-width:680px;margin:0 auto;padding:0 22px}
+.band{height:10px;background:var(--gold)}
+h1,h2,h3{font-family:"Fraunces",Georgia,serif;line-height:1.12}
+.kicker{font-family:-apple-system,Helvetica,Arial,sans-serif;font-size:12px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--goldd);font-weight:700}
+p{margin:0 0 1em}
+em{font-style:italic}
+.sub{color:var(--mut);font-style:italic}
+section{padding:56px 0;border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:none}
+h2{font-size:34px;margin:10px 0 6px}
+.lead{font-size:18.5px}
+/* hero */
+.hero{text-align:center;padding:72px 0 60px}
+.hero h1{font-size:clamp(38px,7vw,58px);margin:14px 0 4px}
+.hero .h2line{font-size:clamp(26px,5vw,38px);color:var(--goldd);font-family:"Fraunces",serif;font-weight:700}
+.hero .sub{margin-top:18px;font-size:18px}
+.spark{margin:38px auto 8px;display:block;max-width:520px;width:100%}
+.spark-cap{font-family:-apple-system,Helvetica,sans-serif;font-size:12.5px;color:var(--mut)}
+.verse{margin-top:34px;font-style:italic;color:var(--goldd);font-size:19px}
+.verse span{display:block;font-size:13px;color:var(--mut);margin-top:4px;font-style:normal}
+/* panels */
+.panel{background:var(--panel2);border:1px solid var(--rule);border-radius:14px;padding:22px 24px;margin:22px 0}
+.panel h3{font-size:21px;color:var(--ink);margin:4px 0 10px}
+.panel .kicker{font-size:10.5px}
+.takeaway{background:var(--panel);border:none;border-radius:12px;padding:18px 22px;margin:26px 0 0}
+.takeaway b{font-family:-apple-system,Helvetica,sans-serif;font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--goldd);display:block;margin-bottom:4px}
+.cite{font-size:13.5px;color:var(--mut);font-style:italic}
+figure{margin:30px 0}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-family:-apple-system,Helvetica,sans-serif;font-size:12px;color:var(--mut);
+  letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+/* buttons row */
+.btns{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 6px}
+.btn{border:1.6px solid;border-radius:9px;text-align:center;padding:9px 2px;background:var(--cream);
+  font-family:-apple-system,Helvetica,sans-serif;font-weight:700;font-size:15px}
+.btn small{display:block;font-weight:400;font-size:10.5px;color:var(--mut);margin-top:3px}
+.b-again{border-color:var(--red);color:var(--red)}
+.b-hard{border-color:var(--goldd);color:var(--goldd)}
+.b-good{border-color:var(--green);color:var(--green)}
+.b-easy{border-color:var(--blue);color:var(--blue)}
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}
+.pill{background:var(--panel);border-radius:999px;padding:4px 12px;
+  font-family:-apple-system,Helvetica,sans-serif;font-size:12.5px;font-weight:700;color:var(--goldd)}
+/* demo card */
+.democard{background:var(--cream);border:1.6px solid var(--gold);border-radius:14px;
+  padding:22px 24px;margin:24px 0;box-shadow:0 2px 10px rgba(43,38,32,.06)}
+.democard .ref{font-family:-apple-system,Helvetica,sans-serif;font-weight:700;font-size:17px;margin:2px 0 12px}
+.ctx{color:var(--mut);font-style:italic;font-size:14.5px}
+.scaffold{border:1.5px dashed var(--rule);border-radius:10px;padding:14px;margin:12px 0;
+  text-align:center;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;
+  font-size:15px;color:var(--mut);font-style:italic;transition:background .15s}
+.scaffold:hover{background:var(--panel2)}
+.scaffold.on{font-family:"Courier New",monospace;font-style:normal;color:#5d5446;
+  font-size:17px;letter-spacing:.03em}
+.demo-note{font-family:-apple-system,Helvetica,sans-serif;font-size:12px;color:var(--mut);text-align:center}
+/* evidence bar */
+.evbar{background:var(--panel2);border:1px solid var(--rule);border-radius:8px;height:34px;
+  position:relative;overflow:hidden;margin:14px 0 4px}
+.evfill{position:absolute;inset:0;width:99.6%;background:var(--gold);border-radius:8px;
+  display:flex;align-items:center;padding-left:14px;color:var(--cream);
+  font-family:-apple-system,Helvetica,sans-serif;font-weight:700;font-size:14px}
+.evcap{text-align:right;font-size:12.5px;color:var(--mut);font-style:italic}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}
+.stat{background:var(--panel);border-radius:12px;text-align:center;padding:16px 8px}
+.stat b{font-family:"Fraunces",serif;font-size:24px;color:var(--goldd);display:block}
+.stat span{font-family:-apple-system,Helvetica,sans-serif;font-size:11.5px;display:block;margin-top:4px}
+.stat i{font-family:-apple-system,Helvetica,sans-serif;font-size:10px;color:var(--mut);display:block;margin-top:4px}
+/* steps + faq */
+.step{display:flex;gap:14px;margin:18px 0}
+.stepnum{flex:0 0 30px;height:30px;border-radius:50%;background:var(--gold);color:var(--cream);
+  display:flex;align-items:center;justify-content:center;font-family:-apple-system,Helvetica,sans-serif;font-weight:700}
+.step h3{font-size:18px;margin:2px 0 3px}
+.step p{font-size:14.5px;color:var(--mut);margin:0}
+.faq dt{font-weight:600;font-style:italic;margin-top:16px}
+.faq dd{color:var(--mut);font-size:15px;margin:2px 0 0}
+.closing{background:var(--panel);border-radius:14px;text-align:center;padding:30px 24px;margin-top:34px}
+.closing .q{font-family:"Fraunces",serif;font-size:21px;color:var(--goldd);font-style:italic}
+footer{padding:34px 0 60px;text-align:center;font-family:-apple-system,Helvetica,sans-serif;
+  font-size:12px;color:var(--mut)}
+footer a{color:var(--goldd)}
+@media(max-width:560px){
+  .btns{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:1fr}
+  h2{font-size:29px}
+}
+</style>
+</head>
+<body>
+<div class="band"></div>
+
+<header class="hero wrap">
+  <div class="kicker">Hidden in your heart</div>
+  <h1>Memorize the Bible</h1>
+  <div class="h2line">in five minutes a day</div>
+  <p class="sub">The science of never forgetting — explained simply —<br>and how a free app puts it to work on Scripture.</p>
+  <svg class="spark" viewBox="0 0 520 70" aria-hidden="true">
+    <path id="sawtooth" fill="none" stroke="#a07d3e" stroke-width="2.5" d=""/>
+    <g id="dots"></g>
+  </svg>
+  <div class="spark-cap">review · review · review — each one further apart, each one holding longer</div>
+  <div class="verse">“I have stored up your word in my heart”<span>— Psalm 119:11</span></div>
+</header>
+
+<main class="wrap">
+
+<section>
+  <div class="kicker">Part one · The problem</div>
+  <h2>Your memory has a leak</h2>
+  <p class="sub">Why the verses you learn in January are gone by Easter — and why it’s not your fault.</p>
+  <p class="lead">Everyone who has tried to memorize Scripture knows the pattern. You work hard on a verse, you have it word-perfect by Sunday — and a month later it’s a fog. It feels like a personal failing. It isn’t. It’s the normal, measurable behavior of every human memory.</p>
+  <p>In the 1880s a German scientist named Hermann Ebbinghaus spent years memorizing lists and testing himself at intervals. He discovered that forgetting follows a curve: steep at first, then flattening. You lose most of a new memory in the first days — not gradually over years.</p>
+  <figure>
+    <figcaption>How much you still remember</figcaption>
+    <svg viewBox="0 0 640 240">
+      <line x1="50" y1="10" x2="50" y2="200" stroke="#8a8378"/>
+      <line x1="50" y1="200" x2="620" y2="200" stroke="#8a8378"/>
+      <line x1="50" y1="10" x2="620" y2="10" stroke="#e3d8bf"/>
+      <line x1="50" y1="105" x2="620" y2="105" stroke="#e3d8bf"/>
+      <text x="44" y="15" text-anchor="end" font-size="12" fill="#8a8378" font-family="Helvetica">100%</text>
+      <text x="44" y="109" text-anchor="end" font-size="12" fill="#8a8378" font-family="Helvetica">50%</text>
+      <text x="44" y="204" text-anchor="end" font-size="12" fill="#8a8378" font-family="Helvetica">0%</text>
+      <text x="50" y="222" font-size="12" fill="#8a8378" font-family="Helvetica">today</text>
+      <text x="330" y="222" font-size="12" fill="#8a8378" font-family="Helvetica" text-anchor="middle">two weeks</text>
+      <text x="620" y="222" font-size="12" fill="#8a8378" font-family="Helvetica" text-anchor="end">one month</text>
+      <path id="forgetcurve" fill="none" stroke="#9c5648" stroke-width="3" d=""/>
+      <text x="330" y="60" font-size="14" font-weight="bold" fill="#9c5648" font-family="Helvetica">memorize once, never review:</text>
+      <text x="330" y="78" font-size="13" fill="#8a8378" font-family="Helvetica" font-style="italic">about two-thirds gone in a month</text>
+    </svg>
+  </figure>
+  <p>The curve is the enemy — but it has a weakness. <em>Every time you successfully recall something, the curve resets and flattens.</em> Forgetting slows down. Everything below is built on exploiting that weakness, over and over, with perfect timing.</p>
+  <div class="takeaway"><b>The takeaway</b><em>Forgetting isn’t a discipline problem. It’s a scheduling problem — and schedules can be fixed.</em></div>
+</section>
+
+<section>
+  <div class="kicker">Part one · The science</div>
+  <h2>The two discoveries that matter</h2>
+  <p class="sub">A century of memory research boils down to two findings you can use tomorrow.</p>
+  <div class="panel">
+    <div class="kicker">Discovery 1</div>
+    <h3>Spacing beats cramming.</h3>
+    <p>Ten minutes of review spread over a month builds far stronger memory than the same ten minutes in one sitting. This “spacing effect” is the most replicated result in learning science: a 2006 review pooled 839 comparisons across 317 experiments and 14,000+ people — spaced practice won across the board.</p>
+    <p class="cite">(Cepeda et al., Psychological Bulletin, 2006)</p>
+  </div>
+  <div class="panel">
+    <div class="kicker">Discovery 2</div>
+    <h3>Recalling beats re-reading.</h3>
+    <p>Struggling to produce a verse from memory strengthens it far more than reading it again. In a landmark study, students who practiced recall remembered dramatically more a week later than students who re-read — even though the re-readers felt more confident. The effort of retrieval is what does the work.</p>
+    <p class="cite">(Roediger &amp; Karpicke, Psychological Science, 2006)</p>
+  </div>
+  <p><em>Put the two together — spaced, effortful recall — and memory stops leaking.</em></p>
+</section>
+
+<section>
+  <div class="kicker">Part two · The tool</div>
+  <h2>Meet Anki: it knows the curve</h2>
+  <p class="sub">A free flashcard app that does all the scheduling for you.</p>
+  <p>Anki (free on computer and Android; a one-time purchase on iPhone) holds your verses as digital flashcards. Each day it deals you a small stack: any new verse you’re learning, plus the handful of old ones due for a check-in. You try to say each verse aloud, flip to check yourself, and answer with one tap — and that tap is the whole “scheduling” you ever do:</p>
+  <div class="btns">
+    <div class="btn b-again">Again<small>forgot — see it soon</small></div>
+    <div class="btn b-hard">Hard<small>shaky — shorter gap</small></div>
+    <div class="btn b-good">Good<small>got it — longer gap</small></div>
+    <div class="btn b-easy">Easy<small>much longer gap</small></div>
+  </div>
+  <p>Rate a verse “Good” each time it appears, and its gaps stretch like this:</p>
+  <div class="pills"><span class="pill">1 day</span><span class="pill">3 days</span><span class="pill">1 week</span><span class="pill">3 weeks</span><span class="pill">2 months</span><span class="pill">6 months</span><span class="pill">1.5 yrs</span><span class="pill">4 yrs</span></div>
+  <p>That stretching is why the workload stays tiny. A verse you’ve known for two years might check in once every few years — nearly free to keep. Your daily stack stays small even when your collection grows into the thousands, because almost all of it is “asleep” at long intervals.</p>
+  <div class="takeaway"><b>The takeaway</b><em>You bring five honest minutes. Anki remembers when every single verse needs you next.</em></div>
+</section>
+
+<section>
+  <div class="kicker">Part two · The brains: FSRS</div>
+  <h2>A weather forecast for your memory</h2>
+  <p class="sub">The algorithm inside Anki, explained without a single equation.</p>
+  <p>How does Anki know a verse is about to slip? Since 2023 it has shipped with a scheduler called <strong>FSRS</strong> — the Free Spaced Repetition Scheduler — built by an open community of researchers and trained on hundreds of millions of real people’s real reviews.</p>
+  <p>The easiest way to understand it: FSRS is a weather forecast — except instead of predicting rain, it predicts <em>the chance you can still recite a verse.</em> For every card, every day, it tracks how hard that verse is for you, how long it tends to stick, and the live probability you could say it right now. When that probability is about to dip to your target — 90% by default — the verse lands in tomorrow’s stack. Not before (wasting your time), not after (letting it slip). Right on the line.</p>
+  <h3 style="font-size:20px;margin-top:26px">How do we know it works?</h3>
+  <p>FSRS is open source, and its makers run a public benchmark: the review histories of roughly ten thousand real users — hundreds of millions of reviews — scored on one question: <em>how well did you predict whether this person would remember this card today?</em></p>
+  <div class="evbar"><div class="evfill">FSRS more accurate — 99.6% of users</div></div>
+  <div class="evcap">vs. Anki’s classic 1987-era scheduler, on the public benchmark</div>
+  <div class="stats">
+    <div class="stat"><b>20–30%</b><span>fewer reviews for the same retention</span><i>(from large-scale simulation)</i></div>
+    <div class="stat"><b>~10,000</b><span>real users’ histories in the benchmark</span><i>hundreds of millions of reviews</i></div>
+    <div class="stat"><b>Personal</b><span>it re-fits itself to YOUR history</span><i>your forgetting, not an average’s</i></div>
+  </div>
+  <div class="panel">
+    <h3 style="font-size:18px">Kept honest — what the evidence does and doesn’t say</h3>
+    <p style="font-size:15px;margin:0">The 20–30% savings figure comes from simulation on logged data, not a classroom trial. FSRS only schedules — honest, out-loud recall is still your job, and with verbatim text one slipped word should count as a miss. Everything is checkable: the code, data, and benchmark are public on GitHub.</p>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">Part three · The technique</div>
+  <h2>The first-letter method</h2>
+  <p class="sub">A centuries-old memorizer’s trick that fits perfectly inside a flashcard. Try it below.</p>
+  <p>Reciting a whole verse from nothing can feel like a cliff. The first-letter method turns the cliff into a staircase: write out only the first letter of every word, keeping the punctuation. That skeleton is too thin to <em>read</em> — but it’s just enough to catch you when you stumble.</p>
+  <div class="democard">
+    <div class="kicker">Scripture · live demo</div>
+    <div class="ref">James 1:2</div>
+    <div class="ctx">Try to recite it from memory. Stuck? Tap the box.</div>
+    <div class="scaffold" id="demo" role="button" tabindex="0" aria-pressed="false">tap for first-letter hint</div>
+    <div class="demo-note">tap again to hide it — on the real card, flipping reveals the full verse</div>
+  </div>
+  <p>Why does something so thin work so well? It gives you the rhythm, the word count, the shape of the sentence — the things that jog a true memory. It does <em>not</em> give you the words, so your brain still does the retrieval — which is exactly the effort that builds the memory. <strong>A cue, not a crutch.</strong> In the deck, the hint stays hidden by default, appears on a tap, and is generated automatically from the verse text.</p>
+  <div class="takeaway"><b>One rule keeps it honest</b><em>Always attempt the verse cold first. The hint is a ladder for the hard days — not the floor you stand on.</em></div>
+</section>
+
+<section>
+  <div class="kicker">Part three · The deck</div>
+  <h2>Anatomy of a Scripture card</h2>
+  <p class="sub">Small design choices that turn loose verses into passages you can actually recite.</p>
+  <p>Each card cues you with <strong>only the reference</strong> — the purest form of recall. Above and below your verse, in quiet gray, sit the verse before and the verse after. You aren’t just learning islands — you’re learning the <em>handoffs</em> between verses, which is what lets you recite a whole chapter as one flowing passage. (The context resets at each book, so James never bleeds into 1 Peter.)</p>
+  <div class="panel">
+    <div class="kicker">A smart learning order</div>
+    <p style="font-size:15.5px;margin:8px 0 0">Start with short, beloved books — James, Philippians, 1 Peter — for early wins. Then Psalms &amp; Proverbs, the doctrinal letters, the Gospels. The deck serves them in sequence; you never decide what’s next.</p>
+  </div>
+  <div class="panel">
+    <div class="kicker">Whole-chapter cards</div>
+    <p style="font-size:15.5px;margin:8px 0 0">Sprinkled through the deck are cards that ask you to recite an entire chapter, start to finish. Spaced repetition itself schedules your recitation practice — the goal isn’t flashcards, it’s fluency.</p>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">Part four · The payoff</div>
+  <h2>What one verse a day becomes</h2>
+  <p class="sub">Small, boring, daily — and it quietly compounds into something astonishing.</p>
+  <figure>
+    <figcaption>Verses memorized · one per day</figcaption>
+    <svg viewBox="0 0 640 300">
+      <line x1="60" y1="20" x2="60" y2="260" stroke="#8a8378"/>
+      <line x1="60" y1="260" x2="620" y2="260" stroke="#8a8378"/>
+      <line x1="60" y1="107" x2="620" y2="107" stroke="#a07d3e" stroke-dasharray="4 4" opacity=".7"/>
+      <text x="66" y="100" font-size="12" font-weight="bold" fill="#8a6d34" font-family="Helvetica">NT + Psalms + Proverbs · 11,333</text>
+      <line x1="60" y1="152" x2="620" y2="152" stroke="#a07d3e" stroke-dasharray="4 4" opacity=".7"/>
+      <text x="66" y="145" font-size="12" font-weight="bold" fill="#8a6d34" font-family="Helvetica">entire New Testament · 7,957</text>
+      <line x1="60" y1="20" x2="614" y2="106" stroke="none"/>
+      <path d="M 60 260 L 614 106" stroke="#a07d3e" stroke-width="4" fill="none"/>
+      <circle cx="78" cy="255" r="6" fill="#8a6d34"/><circle cx="78" cy="255" r="2.5" fill="#faf8f3"/>
+      <circle cx="239" cy="210" r="6" fill="#8a6d34"/><circle cx="239" cy="210" r="2.5" fill="#faf8f3"/>
+      <circle cx="453" cy="152" r="6" fill="#8a6d34"/><circle cx="453" cy="152" r="2.5" fill="#faf8f3"/>
+      <circle cx="614" cy="107" r="6" fill="#8a6d34"/><circle cx="614" cy="107" r="2.5" fill="#faf8f3"/>
+      <text x="60" y="282" font-size="12" fill="#8a8378" font-family="Helvetica">year 0</text>
+      <text x="239" y="282" font-size="12" fill="#8a8378" font-family="Helvetica" text-anchor="middle">10</text>
+      <text x="453" y="282" font-size="12" fill="#8a8378" font-family="Helvetica" text-anchor="middle">22</text>
+      <text x="614" y="282" font-size="12" fill="#8a8378" font-family="Helvetica" text-anchor="end">31</text>
+    </svg>
+  </figure>
+  <p><strong>Year 1:</strong> 365 verses — the length of James, Philippians, 1 Peter &amp; Titus. <strong>Year 10:</strong> about all four Gospels. <strong>Year 22:</strong> the entire New Testament. <strong>Year 31:</strong> add Psalms &amp; Proverbs.</p>
+  <p>And the cost? Reviews average <strong>two to three minutes a day — and stay there.</strong> Even after sixteen thousand verses, the heaviest day of the year is about four minutes, because nearly all of your collection is resting at intervals of months or years.</p>
+  <p><em>One verse a day is the pace of someone who finishes. It survives busy seasons, travel, and toddlers. Miss a day and nothing piles up — tomorrow simply brings the next verse.</em></p>
+</section>
+
+<section>
+  <div class="kicker">Part four · Begin</div>
+  <h2>Getting started this week</h2>
+  <div class="step"><div class="stepnum">1</div><div><h3>Install Anki (free).</h3><p>Computer: apps.ankiweb.net · Android: AnkiDroid · iPhone: AnkiMobile.</p></div></div>
+  <div class="step"><div class="stepnum">2</div><div><h3>Load a Scripture deck.</h3><p>Import a verse-per-card deck in your translation — start small.</p></div></div>
+  <div class="step"><div class="stepnum">3</div><div><h3>Turn on FSRS at 90%.</h3><p>Deck options → scheduler → FSRS; set desired retention to 0.90.</p></div></div>
+  <div class="step"><div class="stepnum">4</div><div><h3>Set new cards to 1/day.</h3><p>One verse a day. Recite out loud, grade strictly, let the app remember.</p></div></div>
+
+  <h3 style="font-size:20px;margin-top:30px">Honest questions</h3>
+  <dl class="faq">
+    <dt>“I’m too old / my memory is bad.”</dt><dd>The forgetting curve is universal — and so is the fix. FSRS adapts to your pace.</dd>
+    <dt>“I’ve tried and failed before.”</dt><dd>You likely failed at reviewing on time, not memorizing — the exact part the app takes over.</dd>
+    <dt>“Isn’t this mechanical for something sacred?”</dt><dd>The app only schedules. The meditation — speaking God’s word — is as alive as ever.</dd>
+    <dt>“What if I miss a week?”</dt><dd>Reviews wait patiently and re-space when you return. The system bends; it doesn’t break.</dd>
+  </dl>
+
+  <div class="closing">
+    <div class="q">“I have stored up your word in my heart,<br>that I might not sin against you.”</div>
+    <div style="color:var(--mut);font-size:14px;margin:8px 0 14px">— Psalm 119:11</div>
+    <p style="margin:0">Five minutes a day. <strong>Start with James 1:1 tomorrow morning.</strong></p>
+  </div>
+</section>
+
+</main>
+<footer>Anki is free · <a href="https://apps.ankiweb.net">apps.ankiweb.net</a></footer>
+<div class="band"></div>
+
+<script>
+// hero sawtooth
+(function(){
+  var w=520,h=60,revs=[0,.12,.28,.5,.78,1],pts=[];
+  for(var i=0;i<revs.length-1;i++){
+    var a=revs[i],b=revs[i+1];
+    for(var j=0;j<=12;j++){
+      var t=j/12, ret=1-0.55*(1-Math.exp(-2.5*t))/(1-Math.exp(-2.5));
+      pts.push([(a+(b-a)*t)*w, 8+(h-16)*(1-ret)]);
+    }
+    pts.push([b*w,8]);
+  }
+  document.getElementById('sawtooth').setAttribute('d','M '+pts.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' L '));
+  var dots=document.getElementById('dots');
+  revs.slice(1).forEach(function(r){
+    var c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',r*w);c.setAttribute('cy',8);c.setAttribute('r',4);c.setAttribute('fill','#8a6d34');
+    dots.appendChild(c);
+  });
+})();
+// forgetting curve
+(function(){
+  var pts=[];
+  for(var i=0;i<=56;i++){
+    var d=i*0.5, ret=0.36+0.64*Math.exp(-d/4.5);
+    pts.push([50+570*(d/28), 200-190*ret]);
+  }
+  document.getElementById('forgetcurve').setAttribute('d','M '+pts.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' L '));
+})();
+// first-letter demo
+(function(){
+  var el=document.getElementById('demo');
+  var fl="C i a j, m b, w y m t o v k,";
+  function toggle(){
+    var on=el.classList.toggle('on');
+    el.textContent=on?fl:"tap for first-letter hint";
+    el.setAttribute('aria-pressed',on);
+  }
+  el.addEventListener('click',toggle);
+  el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
+})();
+</script>
+</body>
+</html>

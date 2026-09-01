@@ -75,21 +75,34 @@ MONEY = re.compile(r"-?\d+(?:[.,]\d+)?")
 
 # --- Apify plumbing ----------------------------------------------------------
 
-def api_get(path, token, **params):
-    params["token"] = token
-    r = requests.get(f"{API}/{path}", params=params, timeout=60)
-    return r
+def make_session(token):
+    """Auth travels in a header, not the query string.
+
+    With a token we set the header ourselves. Without one we send no auth and
+    rely on the Apify key being stored as an API credential on the cloud
+    environment: Anthropic's agent proxy attaches the Authorization header
+    after the request leaves the VM, which also makes api.apify.com reachable
+    regardless of the environment's network access level.
+    """
+    s = requests.Session()
+    if token:
+        s.headers["Authorization"] = f"Bearer {token}"
+    return s
 
 
-def resolve_actor(actor_id, token):
+def api_get(path, sess, **params):
+    return sess.get(f"{API}/{path}", params=params, timeout=60)
+
+
+def resolve_actor(actor_id, sess):
     """Confirm the actor ID exists. On 404, list the publisher's actors."""
-    r = api_get(f"acts/{actor_id}", token)
+    r = api_get(f"acts/{actor_id}", sess)
     if r.status_code == 200:
         d = r.json()["data"]
         return {"id": actor_id, "name": d.get("name"), "title": d.get("title")}
     if r.status_code == 404:
         print(f"  ! actor not found: {actor_id}")
-        alt = api_get("store", token, search=PUBLISHER, limit=50)
+        alt = api_get("store", sess, search=PUBLISHER, limit=50)
         if alt.status_code == 200:
             items = alt.json().get("data", {}).get("items", [])
             hits = [i for i in items if PUBLISHER in (i.get("username") or "")]
@@ -102,14 +115,14 @@ def resolve_actor(actor_id, token):
     return None
 
 
-def resolve_input_key(actor_id, token):
+def resolve_input_key(actor_id, sess):
     """Read the actor's published input schema to get the REAL field name.
 
     This is the whole point of doing schema-first: reading the schema costs
     nothing, while probing candidate keys costs one actor run per guess.
     Returns (key, source, schema_properties).
     """
-    r = api_get(f"acts/{actor_id}/builds/default", token)
+    r = api_get(f"acts/{actor_id}/builds/default", sess)
     if r.status_code != 200:
         return None, f"schema unavailable (HTTP {r.status_code})", {}
 
@@ -149,14 +162,9 @@ def resolve_input_key(actor_id, token):
     return best, "input schema", props
 
 
-def run_actor(actor_id, payload, token, wait_s=600):
+def run_actor(actor_id, payload, sess, wait_s=600):
     """Start a run, poll to completion, return dataset items."""
-    r = requests.post(
-        f"{API}/acts/{actor_id}/runs",
-        params={"token": token},
-        json=payload,
-        timeout=60,
-    )
+    r = sess.post(f"{API}/acts/{actor_id}/runs", json=payload, timeout=60)
     if r.status_code not in (200, 201):
         return None, f"start failed HTTP {r.status_code}: {r.text[:300]}"
 
@@ -167,7 +175,7 @@ def run_actor(actor_id, payload, token, wait_s=600):
     status = run["status"]
     while status in ("READY", "RUNNING") and time.time() < deadline:
         time.sleep(5)
-        p = api_get(f"actor-runs/{run_id}", token)
+        p = api_get(f"actor-runs/{run_id}", sess)
         if p.status_code != 200:
             return None, f"poll failed HTTP {p.status_code}"
         status = p.json()["data"]["status"]
@@ -175,7 +183,7 @@ def run_actor(actor_id, payload, token, wait_s=600):
     if status != "SUCCEEDED":
         return None, f"run ended {status}"
 
-    d = api_get(f"datasets/{ds_id}/items", token, clean="true", format="json")
+    d = api_get(f"datasets/{ds_id}/items", sess, clean="true", format="json")
     if d.status_code != 200:
         return None, f"dataset fetch failed HTTP {d.status_code}"
     return d.json(), None
@@ -286,15 +294,15 @@ def verdict(pct):
 
 # --- Per-chain driver --------------------------------------------------------
 
-def test_chain(chain, actor_id, zips, token, outdir, resolve_only):
+def test_chain(chain, actor_id, zips, sess, outdir, resolve_only):
     print(f"\n{'='*72}\n{chain}  ({actor_id})\n{'='*72}")
 
-    info = resolve_actor(actor_id, token)
+    info = resolve_actor(actor_id, sess)
     if not info:
         return None
     print(f"  actor: {info['title'] or info['name']}")
 
-    key, source, props = resolve_input_key(actor_id, token)
+    key, source, props = resolve_input_key(actor_id, sess)
     if key:
         print(f"  input key: '{key}'  (from {source})")
     else:
@@ -312,7 +320,7 @@ def test_chain(chain, actor_id, zips, token, outdir, resolve_only):
         rows, err = None, None
         for cand in tried:
             print(f"  running ZIP {z} with {{'{cand}': '{z}'}} ...", flush=True)
-            rows, err = run_actor(actor_id, {cand: z}, token)
+            rows, err = run_actor(actor_id, {cand: z}, sess)
             if rows:
                 working_key = cand
                 tried = [cand]  # lock it in; don't probe again
@@ -374,14 +382,26 @@ def main():
                     help="repeatable; default all")
     ap.add_argument("--actor", help="override actor ID (with a single --chain)")
     ap.add_argument("--zips", default=",".join(DEFAULT_ZIPS))
+    ap.add_argument("--proxy-auth", action="store_true",
+                    help="send no token; the Apify key is an API credential on "
+                         "the cloud environment and the agent proxy attaches it")
     ap.add_argument("--resolve-only", action="store_true",
                     help="resolve actor + input key only; no actor runs, no cost")
     ap.add_argument("--outdir", default="pricing_test_output")
     args = ap.parse_args()
 
     token = os.environ.get("APIFY_TOKEN")
+    if not token and not args.proxy_auth:
+        sys.exit(
+            "APIFY_TOKEN is not set.\n"
+            "  export APIFY_TOKEN=apify_api_...\n"
+            "  ...or pass --proxy-auth if the Apify key is stored as an API\n"
+            "  credential on the cloud environment, where the agent proxy\n"
+            "  attaches it and this script never sees it."
+        )
+    sess = make_session(token)
     if not token:
-        sys.exit("APIFY_TOKEN is not set. export APIFY_TOKEN=apify_api_...")
+        print("no APIFY_TOKEN; relying on a proxy-attached API credential")
 
     zips = [z.strip() for z in args.zips.split(",") if z.strip()]
     if len(zips) < 2:
@@ -396,7 +416,7 @@ def main():
     for c in chains:
         actor = args.actor if (args.actor and len(chains) == 1) else CHAINS[c]
         try:
-            r = test_chain(c, actor, zips, token, outdir, args.resolve_only)
+            r = test_chain(c, actor, zips, sess, outdir, args.resolve_only)
         except requests.RequestException as e:
             print(f"  ! network error on {c}: {e}")
             r = None

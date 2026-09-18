@@ -1,0 +1,98 @@
+name: Store-level pricing test
+
+# Runs the Apify store-level pricing test on GitHub's runners instead of a
+# laptop. Unlike a Claude cloud session, Actions runners have unrestricted
+# outbound network, so api.apify.com is reachable; the Apify key lives in
+# repository secrets rather than in any environment variable a session can read.
+#
+# Setup (once): Settings > Secrets and variables > Actions > New repository
+# secret, named APIFY_TOKEN.
+#
+# To run: Actions tab > "Store-level pricing test" > Run workflow. Leave
+# "resolve_only" checked for the free dry run that just confirms the actor IDs
+# and input field name; uncheck it for the real run.
+
+on:
+  workflow_dispatch:
+    inputs:
+      chains:
+        description: "Chains to test, comma-separated (tacobell,burgerking,mcdonalds). Blank = all three."
+        required: false
+        default: ""
+      zips:
+        description: "ZIPs to compare, comma-separated. Defaults span high-cost urban, low-cost midwest, high-cost remote."
+        required: false
+        default: "10001,67501,99501"
+      resolve_only:
+        description: "Dry run: resolve actor IDs and input keys only. No actor runs, no cost."
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install requests
+
+      - name: Run pricing test
+        env:
+          # Inputs are passed through the environment rather than interpolated
+          # into the shell, so their contents can't be parsed as script.
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          CHAINS: ${{ inputs.chains }}
+          ZIPS: ${{ inputs.zips }}
+          RESOLVE_ONLY: ${{ inputs.resolve_only }}
+        run: |
+          set -o pipefail
+          if [ -z "$APIFY_TOKEN" ]; then
+            echo "::error::APIFY_TOKEN secret is not set. Add it under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+
+          ARGS=()
+          if [ -n "$CHAINS" ]; then
+            IFS=',' read -ra CS <<< "$CHAINS"
+            for c in "${CS[@]}"; do
+              c="$(echo "$c" | tr -d '[:space:]')"
+              [ -n "$c" ] && ARGS+=(--chain "$c")
+            done
+          fi
+          [ -n "$ZIPS" ] && ARGS+=(--zips "$ZIPS")
+          [ "$RESOLVE_ONLY" = "true" ] && ARGS+=(--resolve-only)
+
+          python3 test_store_level_pricing.py "${ARGS[@]}" 2>&1 | tee run.log
+
+      - name: Publish result to job summary
+        if: always()
+        run: |
+          {
+            echo '## Store-level pricing test'
+            echo
+            echo '```'
+            tail -n 120 run.log 2>/dev/null || echo "(no output captured)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload raw dumps and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pricing-test-output
+          path: |
+            pricing_test_output/
+            run.log
+          if-no-files-found: warn
+          # Raw dumps are full menus. They stay here as a build artifact for
+          # inspection rather than being committed, since the project publishes
+          # aggregated ranges and rankings, not verbatim menus.
+          retention-days: 14
